@@ -1,4 +1,4 @@
-name: Build EXE and APK
+name: Build All Platforms
 
 on:
   push:
@@ -18,7 +18,6 @@ jobs:
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      - run: flutter config --enable-android
       - run: flutter create . --platforms=android --project-name yixue_master
       - run: flutter pub get
       - run: flutter build apk --release
@@ -27,22 +26,18 @@ jobs:
           name: android-apk
           path: build/app/outputs/flutter-apk/app-release.apk
 
-  build-windows:
-    runs-on: windows-latest
+  build-web:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      # 关键修复：手动开启 Windows 桌面支持
-      - run: flutter config --enable-windows-desktop
-      - run: flutter create . --platforms=windows --project-name yixue_master
+      - run: flutter create . --platforms=web --project-name yixue_master
       - run: flutter pub get
-      # 打印环境信息，如果失败，日志里会有详细信息
-      - run: flutter doctor -v
-      - run: flutter build windows --release
+      - run: flutter build web --release
       - uses: actions/upload-artifact@v4
         with:
-          name: windows-exe
-          path: build/windows/x64/runner/Release/
+          name: web-app
+          path: build/web/
