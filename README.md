@@ -1,2 +1,2 @@
-# yixue-master
-yixue-master
+# 万能易学
+八字 + 奇门 + 黄历，跨平台程序
