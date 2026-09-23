@@ -18,8 +18,8 @@ jobs:
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      # 关键修复：自动生成 Android 和 Windows 工程外壳
-      - run: flutter create . --platforms=android,windows --project-name yixue_master
+      - run: flutter config --enable-android
+      - run: flutter create . --platforms=android --project-name yixue_master
       - run: flutter pub get
       - run: flutter build apk --release
       - uses: actions/upload-artifact@v4
@@ -35,9 +35,12 @@ jobs:
         with:
           flutter-version: '3.22.0'
           channel: 'stable'
-      # 关键修复：自动生成 Android 和 Windows 工程外壳
-      - run: flutter create . --platforms=android,windows --project-name yixue_master
+      # 关键修复：手动开启 Windows 桌面支持
+      - run: flutter config --enable-windows-desktop
+      - run: flutter create . --platforms=windows --project-name yixue_master
       - run: flutter pub get
+      # 打印环境信息，如果失败，日志里会有详细信息
+      - run: flutter doctor -v
       - run: flutter build windows --release
       - uses: actions/upload-artifact@v4
         with:
